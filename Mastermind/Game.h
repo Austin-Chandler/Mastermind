@@ -23,6 +23,8 @@ public:
 	void playGame();
 };
 
+//implementation
+//constructor
 Game::Game()
 {
 	wp = bp = numGuesses = 0;
@@ -32,30 +34,35 @@ void Game::playGame()
 {
 	//set the secret code
 	secretCode.setMaster();
+	//If I want to see the secret code I can uncomment the below line 
 	//cout << secretCode[0] << " " << secretCode[1] << " " << secretCode[2] << " " << secretCode[3] << endl;
 
+	//while there is not a winner and not a loser; keep playing
 	do {
-		//get user guess
+		//get user guess, give feedback, and check for winner
 		getUserGuess();
 		giveFeedback();
 		numGuesses++;
+		if ((5 - numGuesses) != 0) cout << "You have " << (5 - numGuesses) << " guesses left" << endl << endl;
 		if (isWinner())
 			cout << "You  Win!" << endl;
-		//end the game
+			//end the game
 		else if (isLoser())
-			cout << "You ran out of guesses... Better luck next time!" << endl;
-		//end the game
+			cout << "You ran out of guesses... Better luck next time!" << endl << "The secret code was: " << secretCode[0] << " " << secretCode[1] << " " << secretCode[2] << " " << secretCode[3] << endl;
+			//end the game
 	} while (!isWinner() && !isLoser());
 }
 
+//set guess limit and check for loser
 bool Game::isLoser()
 {
-	if (numGuesses < 10)
+	if (numGuesses < 5)
 		return false;
 	else
 		return true;
 }
 
+//look for 4 black pegs to determine winner
 bool Game::isWinner()
 {
 	if (bp == 4)
@@ -64,6 +71,7 @@ bool Game::isWinner()
 		return false;
 }
 
+//getting a guess from the user
 void Game::getUserGuess()
 {
 	int a, b, c, d;
@@ -73,6 +81,7 @@ void Game::getUserGuess()
 	cout << "A Guess of " << userGuess[0] << " " << userGuess[1] << " " << userGuess[2] << " " << userGuess[3] << " yields" << endl;
 }
 
+//giving feedback
 void Game::giveFeedback()
 {
 	int guessColors[6];
@@ -113,7 +122,7 @@ void Game::giveFeedback()
 
 	//subtract black pegs to remove any duplicates
 	wp -= bp;
-	cout << wp << " white peg(s) and " << bp << " black peg(s) " << endl << endl;
+	cout << wp << " white peg(s) and " << bp << " black peg(s) " << endl;
 }
 
 #endif
